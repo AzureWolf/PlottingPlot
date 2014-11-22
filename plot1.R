@@ -2,3 +2,13 @@
 NEI <- readRDS("summarySCC_PM25.rds")
 SCC <- readRDS("Source_Classification_Code.rds")
 
+getAnnualPollutant <- function(NEI, yearWanted) {
+	sum(subset(NEI, year == yearWanted)$Emissions)
+}
+
+processedTable <- data.frame()
+for(eachYear in unique(NEI$year)){
+	processedTable <- rbind( processedTable, cbind(eachYear, getAnnualPollutant(NEI, eachYear)) )
+}
+
+plot(processedTable[,1], processedTable[,2], type="l")
