@@ -17,4 +17,9 @@ for(eachYear in unique(baltimore$year)){
 }
 
 colnames(processedTable) <- c("year", "type", "totalPollutant")
-qplot(year, as.numeric(as.character(totalPollutant)), data = processedTable, color = type, group = type, geom = "smooth")
+
+png(filename = "plot3.png", bg = "transparent");
+qplot(year, as.numeric(as.character(totalPollutant)), data = processedTable, 
+	color = type, group = type, geom = "smooth", 
+	xlab = "Year", ylab = "Total Emissions (in tons)", main = "Annual Emissions in Baltimore")
+dev.off()

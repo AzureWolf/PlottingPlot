@@ -17,12 +17,17 @@ baltimore <- subset(NEI, fips == "24510" & type == "ON-ROAD")
 losAngeles <- subset(NEI, fips == "06037" & type == "ON-ROAD")
 
 for(eachYear in unique(baltimore$year)) {
-	processedTable <- rbind( processedTable, cbind(eachYear, getAnnualPollutant(subset(baltimore, SCC %in% coalCombustionSources), eachYear)) )
+	processedTable <- rbind( processedTable, cbind("Baltimore", eachYear, getAnnualPollutant(subset(baltimore, SCC %in% coalCombustionSources), eachYear)) )
 }
 
-for(eachYear in unique(baltimore$year)) {
-	processedTable <- rbind( processedTable, cbind(eachYear, getAnnualPollutant(subset(baltimore, SCC %in% coalCombustionSources), eachYear)) )
+for(eachYear in unique(losAngeles$year)) {
+	processedTable <- rbind( processedTable, cbind("Los Angeles", eachYear, getAnnualPollutant(subset(losAngeles, SCC %in% coalCombustionSources), eachYear)) )
 }
 
-colnames(processedTable) <- c("year", "totalPollutant")
-qplot()
+colnames(processedTable) <- c("city", "year", "totalPollutant")
+
+png(filename = "plot6.png", bg = "transparent")
+qplot(year, as.numeric(as.character(totalPollutant)), data = processedTable, 
+	color = city, group = city, geom = "smooth",
+	xlab = "Year", ylab = "Total Emissions (in tons)", main = "Motor Vehicle Emissions (Baltimore vs Los Angeles)")
+dev.off()

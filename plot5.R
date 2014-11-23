@@ -20,4 +20,7 @@ for(eachYear in unique(baltimore$year)) {
 }
 
 colnames(processedTable) <- c("year", "totalPollutant")
-plot(processedTable[,1], processedTable[,2], type="l")
+
+png(filename = "plot5.png", bg = "transparent");
+plot(processedTable[,1], processedTable[,2], type="b", ylab = "Total Emissions (in tons)", xlab = "Year", main = "Annual Emissions in Baltimore by Vehicle Emissions")
+dev.off()

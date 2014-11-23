@@ -2,7 +2,6 @@
 NEI <- readRDS("summarySCC_PM25.rds")
 SCC <- readRDS("Source_Classification_Code.rds")
 
-library(ggplot2)
 getAnnualPollutant <- function(NEI, yearWanted) {
 	sum(subset(NEI, year == yearWanted)$Emissions)
 }
@@ -15,8 +14,11 @@ coalCombustionSources <- getSources(SCC, "Fuel Comb.*Coal")
 processedTable <- data.frame()
 
 for(eachYear in unique(NEI$year)) {
-	processedTable <- rbind( processedTable, cbind(eachYear, getAnnualPollutant(subset(NEI, SCC == coalCombustionSources), eachYear)) )
+	processedTable <- rbind( processedTable, cbind(eachYear, getAnnualPollutant(subset(NEI, SCC %in% coalCombustionSources), eachYear)) )
 }
 
 colnames(processedTable) <- c("year", "totalPollutant")
-plot(processedTable[,1], processedTable[,2], type="l")
+
+png(filename = "plot4.png", bg = "transparent");
+plot(processedTable[,1], processedTable[,2], type="b", ylab = "Total Emissions (in tons)", xlab = "Year", main = "Annual Emissions in US by Coal Combusion")
+dev.off()

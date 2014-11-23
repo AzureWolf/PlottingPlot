@@ -11,4 +11,6 @@ for(eachYear in unique(NEI$year)){
 	processedTable <- rbind( processedTable, cbind(eachYear, getAnnualPollutant(subset(NEI, fips == "24510"), eachYear)) )
 }
 
-plot(processedTable[,1], processedTable[,2], type="l")
+png(filename = "plot2.png", bg = "transparent");
+plot(processedTable[,1], processedTable[,2], type="b", ylab = "Total Emissions (in tons)", xlab = "Year", main = "Annual Emissions in Baltimore")
+dev.off()
